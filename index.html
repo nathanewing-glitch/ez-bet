@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EZ Bet</title>
+  <meta name="description" content="Five NFL player props, ranked by how often each one hit over the last 8 games.">
+  <meta name="theme-color" content="#0F1110">
+  <meta property="og:title" content="EZ Bet">
+  <meta property="og:description" content="Five NFL player props, ranked by how often each one hit over the last 8 games.">
+  <meta property="og:type" content="website">
+  <!-- Favicon: eight tick marks as an inline SVG, so no extra file is needed. -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230F1110'/%3E%3Cpath d='M6 24V8M12 24V8M18 24V8M24 24V14' stroke='%23B6F04A' stroke-width='3'/%3E%3C/svg%3E">
+  <!-- One typeface, loaded from Google Fonts; the CSS falls back to the system font if it is blocked. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800&display=swap">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <!-- Slim top bar: the name and the search. Nothing else competes with the picks. -->
+  <header class="bar">
+    <a class="brand" href="./">EZ Bet</a>
+    <form class="search" role="search" onsubmit="return false">
+      <label class="sr" for="q">Search by team or player</label>
+      <input id="q" type="search" list="teams" placeholder="Any team or player" autocomplete="off" enterkeyhint="search">
+      <datalist id="teams"></datalist>
+      <button id="reset" class="reset" type="button" hidden>Show all</button>
+    </form>
+  </header>
+
+  <main>
+    <!-- The page's one claim, in about five words; announced politely when a search changes it. -->
+    <div class="intro">
+      <h1 id="intro" aria-live="polite"></h1>
+      <p id="sub" class="sub"></p>
+    </div>
+    <!-- The five at a glance, so nobody has to scroll to compare them. Each row jumps to its full pick. -->
+    <ol id="glance" class="glance" aria-label="The five picks at a glance"></ol>
+    <!-- The five picks in full. app.js fills this in. -->
+    <ol id="picks" class="picks"></ol>
+    <!-- Shown only when a search finds nothing. -->
+    <p id="empty" class="empty" hidden></p>
+  </main>
+
+  <footer class="foot">
+    <p>Real game logs from ESPN, last 8 games played: <span id="count"></span>. ESPN&rsquo;s feed is unofficial and can change.</p>
+    <p>Lines are set by this site, not a sportsbook, and there are no odds here. Each starts at a typical round number, such as 3.5 receptions. If a player cleared it in all 8 games, it is raised to just above his lowest game, so no pick shows 8 of 8. That means 7 of 8 is partly built in: the line was fitted to the same 8 games. Hit rate is not a forecast, and it doesn&rsquo;t check injuries or matchups.</p>
+    <p>21+ and only where betting is legal. Need help? 1-800-GAMBLER.</p>
+  </footer>
+
+  <script src="./data.js"></script>
+  <script src="./store.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
