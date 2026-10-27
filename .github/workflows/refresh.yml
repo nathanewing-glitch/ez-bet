@@ -1,0 +1,29 @@
+# refresh.yml — re-pulls ESPN game logs and updates data.js every Tuesday and Friday.
+# Tuesday morning picks up the weekend and Monday-night games; Friday catches Thursday-night games.
+name: Refresh data
+
+on:
+  schedule:
+    - cron: "17 11 * * 2,5"   # 11:17 UTC (about 7:17am Eastern) on Tuesday and Friday; off the top of the hour, when GitHub is busiest
+  workflow_dispatch:           # also adds a "Run workflow" button in the Actions tab, for a manual refresh
+
+permissions:
+  contents: write              # lets the job save the new data.js back to this repo; nothing else
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15        # a normal run takes about a minute; this stops a stuck one
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Pull ESPN data
+        run: python3 scripts/pull_data.py   # fails (and keeps the old data.js) if ESPN returns too little data
+      - name: Save data.js if it changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data.js
+          git diff --cached --quiet || (git commit -m "Refresh data" && git push)
